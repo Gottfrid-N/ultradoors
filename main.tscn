@@ -25,6 +25,9 @@ uv1_scale = Vector3(40, 40, 40)
 [sub_resource type="BoxMesh" id="BoxMesh_f86qv"]
 material = SubResource("StandardMaterial3D_t0ddb")
 size = Vector3(1000, 1, 1000)
+subdivide_width = 100
+subdivide_height = 100
+subdivide_depth = 100
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4coq6"]
 size = Vector3(1, 10, 1)

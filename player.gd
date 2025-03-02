@@ -1,28 +1,37 @@
 extends CharacterBody3D
 
-var accel = 10
+var accel = 50
 var fric = 4
-var air_accel = 10
-var air_fric = 1
+var air_accel = 50
+var air_fric = 0.01
 
 var mouse_sens = 0.4
-var angleh = 0
-var anglev = 0
+var angleh := 0.0
+var anglev := 0.0
 
 var facing = Vector3(0, 0, 0)
 
 var speed = 0
 
+@onready var explosion_preload = preload("res://explosion.tscn")
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
-		var changeh = event.relative.x*mouse_sens
-		angleh += changeh
-		rotate(Vector3(0, -1, 0), deg_to_rad(changeh))
+		var changeh = -event.relative.x*mouse_sens
+		var changev = -event.relative.y*mouse_sens
 
-		var changev = event.relative.y*mouse_sens
+		if angleh + changeh > -90 and angleh + changeh < 90:
+			angleh += changeh	
+		else:
+			angleh = fmod(angleh + changeh, 360.0)
+
 		if anglev + changev > -90 and anglev + changev < 90:
 			anglev += changev
-			$Camera.rotate(Vector3(-1, 0, 0), deg_to_rad(changev))
+		else:
+			anglev = roundf(anglev)
+		
+		global_basis = Basis.from_euler(Vector3(0, deg_to_rad(angleh), 0))
+		$Camera.global_transform.basis = Basis.from_euler(Vector3(deg_to_rad(anglev), deg_to_rad(angleh), 0))
 	
 	if event.is_action_pressed("jump") and is_on_floor():
 		velocity += Vector3(0, 5, 0)
@@ -32,6 +41,21 @@ func _input(event: InputEvent) -> void:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		else:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
+	if event.is_action_pressed("shoot"):
+		var ray := RayCast3D.new(); add_child(ray)
+		ray.target_position = facing*1000
+
+		print("shooting at: " + str(ray.target_position))
+
+		if ray.is_colliding():
+			var collision := ray.get_collision_point()
+			print("shoot collision: " + str(collision))
+
+			var explosion: Node3D = explosion_preload.instantiate()
+			get_tree().root.add_child(explosion)
+
+			explosion.global_position = collision
 
 func _physics_process(delta: float) -> void:
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
