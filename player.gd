@@ -20,7 +20,7 @@ func _input(event: InputEvent) -> void:
 		var changeh = -event.relative.x*mouse_sens
 		var changev = -event.relative.y*mouse_sens
 
-		if angleh + changeh > -90 and angleh + changeh < 90:
+		if angleh + changeh > -360 and angleh + changeh < 360:
 			angleh += changeh	
 		else:
 			angleh = fmod(angleh + changeh, 360.0)
@@ -30,8 +30,9 @@ func _input(event: InputEvent) -> void:
 		else:
 			anglev = roundf(anglev)
 		
-		global_basis = Basis.from_euler(Vector3(0, deg_to_rad(angleh), 0))
-		$Camera.global_transform.basis = Basis.from_euler(Vector3(deg_to_rad(anglev), deg_to_rad(angleh), 0))
+		$HorizontalPivot.global_transform.basis = Basis.from_euler(Vector3(0, deg_to_rad(angleh), 0))
+
+		$Pivot.global_transform.basis = Basis.from_euler(Vector3(deg_to_rad(anglev), deg_to_rad(angleh), 0))
 	
 	if event.is_action_pressed("jump") and is_on_floor():
 		velocity += Vector3(0, 5, 0)
@@ -59,9 +60,9 @@ func _input(event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	var direction := transform.basis * Vector3(input_dir.x, 0, input_dir.y)
+	var direction = $HorizontalPivot.rotation * Vector3(input_dir.x, 0, input_dir.y)
 
-	facing = Vector3(cos(deg_to_rad(angleh)), deg_to_rad(anglev), sin(deg_to_rad(angleh)))
+	facing = Vector3(sin(deg_to_rad(-angleh)), deg_to_rad(anglev), cos(deg_to_rad(angleh)))
 
 	speed = velocity.length()
 

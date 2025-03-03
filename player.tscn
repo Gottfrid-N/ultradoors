@@ -7,18 +7,21 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_l78a8"]
 
 [node name="Player" type="CharacterBody3D"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 script = ExtResource("1_gu4fs")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_kvs1v")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="HorizontalPivot" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="HorizontalPivot"]
 transform = Transform3D(1, 2.61934e-10, 9.31323e-10, -4.65661e-10, 1, 0, 1.86265e-09, 7.45058e-09, 1, 0, 0, 0)
 layers = 524288
 mesh = SubResource("CapsuleMesh_l78a8")
 skeleton = NodePath("")
 
-[node name="Camera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0042187, 0.7, -0.00385189)
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+
+[node name="Camera" type="Camera3D" parent="Pivot"]
 cull_mask = 524287

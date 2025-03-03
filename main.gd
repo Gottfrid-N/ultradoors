@@ -12,7 +12,8 @@ func _process(delta: float) -> void:
 		var facing = $Player.facing
 
 		$VelocityLabel.text = "Velocity: %s\n / %v\n
-								facing: %v, %s %s" % [velocity.length(), velocity, facing, $Player.angleh, $Player.anglev]
+								facing: %v, %s %s\n
+								basis: %v h: %v" % [velocity.length(), velocity, facing, $Player.angleh, $Player.anglev, $Player/Pivot.rotation, $Player/HorizontalPivot.rotation]
 
 		var facingh = Vector2(facing.x, facing.z)*10
 		var velocityh = Vector2(velocity.x, velocity.z)*20
@@ -21,4 +22,4 @@ func _process(delta: float) -> void:
 		$FacingVisualizer.target_position = facingh
 		$VelocityVisualizer.target_position = Vector2(cos(vangle), sin(vangle)) * velocityh.length()
 	else:
-		$VelocityLabel.text = "velocity: " + str($Player.velocity)
+		pass

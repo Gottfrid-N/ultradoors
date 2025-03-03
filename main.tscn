@@ -75,7 +75,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1, 0)
 mesh = SubResource("BoxMesh_f86qv")
 
 [node name="Player" parent="." instance=ExtResource("1_7qgrn")]
-transform = Transform3D(0.999887, -0.0102041, -0.0110745, 0.0105548, 0.999429, 0.0320839, 0.0107407, -0.0321971, 0.999424, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, 0)
