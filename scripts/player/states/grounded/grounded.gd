@@ -1,14 +1,14 @@
 extends PlayerState
 
 func handle_input(event: InputEvent):
+	if event is InputEventMouseMotion:
+		player.move_camera_from_mouse(event)
+
 	if event.is_action_pressed("jump"):
 		player.velocity += Vector3(0, 5, 0)
 
 	if event.is_action_pressed("crouch"):
-		switch_state.emit(state_manager.states.CROUCHING, {})
-
-	if event is InputEventMouseMotion:
-		player.move_camera_from_mouse(event)
+		switch_state.emit(state_manager.states.BEGIN_CROUCHING, {})
 
 func update(delta: float) -> void:
 	pass

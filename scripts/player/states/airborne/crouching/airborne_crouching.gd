@@ -20,9 +20,9 @@ func physics_update(delta: float) -> void:
 func enter(previous_state_name: StringName, data: Dictionary) -> void:
 	if previous_state_name != state_manager.states.CROUCHING:
 		player.to_crouched_collision()
-	player.acceleration = 25
+	player.base_acceleration = 25
 
 func exit(next_state_name: StringName) -> void:
 	if next_state_name != state_manager.states.CROUCHING:
-		player.acceleration = player.defualt_acceleration
+		player.base_acceleration = player.defualt_acceleration
 		player.to_normal_collision()

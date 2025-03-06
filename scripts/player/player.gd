@@ -2,8 +2,23 @@ class_name Player extends CharacterBody3D
 
 @export var speed := 0.0
 
-@export var acceleration = 50.0
-@export var defualt_acceleration = 50.0
+
+@export var defualt_base_acceleration := 50.0
+@export var defualt_acceleration_modifier := 1.0
+@export var base_acceleration := defualt_base_acceleration:
+	set(value):
+		acceleration_modifier = value
+		redefine_acceleration()
+@export var acceleration_modifier := defualt_acceleration_modifier:
+	set(value):
+		acceleration_modifier = value
+		redefine_acceleration()
+# DO NOT SET VALUE
+@export var acceleration = base_acceleration * acceleration_modifier
+
+
+func redefine_acceleration():
+	acceleration = base_acceleration * acceleration_modifier
 
 @export var friction = 4.0
 @export var defualt_friction = 4.0
@@ -19,6 +34,8 @@ class_name Player extends CharacterBody3D
 @export var defualt_mouse_sensitivity = 0.1
 
 @onready var collision_shape: CollisionShape3D
+@export var collision_shape_height := 2.0
+@export var crouched_collision_shape_height := 1.0
 
 @onready var space := get_world_3d().direct_space_state
 
@@ -29,6 +46,8 @@ class_name Player extends CharacterBody3D
 @export var facingh2d := Vector2(0, 0)
 @export var velocityh := Vector3(0, 0, 0)
 @export var velocityh2d := Vector2(0, 0)
+
+
 
 func _ready() -> void:
 	collision_shape = $"CollisionShape3D"
@@ -86,10 +105,10 @@ func apply_gravity(delta: float):
 func apply_acceleration(delta: float):
 	velocity += acceleration_direction * acceleration * delta
 
-func to_crouched_collision():
-	collision_shape.shape.height = 1
-	collision_shape.transform.origin = Vector3(0, 0.5, 0)
+func transition_to_crouched_collision(delta: float):
+	collision_shape.shape.height = lerp(collision_shape.shape.height, 1, 5.0 * delta)
+	collision_shape.transform.origin = lerp(collision_shape.transform.origin, Vector3(0, 0.5, 0), 5.0 * delta)
 
-func to_normal_collision():
-	collision_shape.shape.height = 2
-	collision_shape.transform.origin = Vector3(0, 0, 0)
+func transition_to_normal_collision(delta: float):
+	collision_shape.shape.height = lerp(collision_shape.shape.height, 2, 5.0 * delta)
+	collision_shape.transform.origin = lerp(collision_shape.transform.origin, Vector3(0, 0, 0), 5.0 * delta)
