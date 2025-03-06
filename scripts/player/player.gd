@@ -18,6 +18,8 @@ class_name Player extends CharacterBody3D
 @export var mouse_sensitivity = 0.1
 @export var defualt_mouse_sensitivity = 0.1
 
+@onready var collision_shape: CollisionShape3D
+
 @onready var space := get_world_3d().direct_space_state
 
 ## In RADIANS! x is vertical rotation, y is horizontal rotation and z is tilt
@@ -27,6 +29,30 @@ class_name Player extends CharacterBody3D
 @export var facingh2d := Vector2(0, 0)
 @export var velocityh := Vector3(0, 0, 0)
 @export var velocityh2d := Vector2(0, 0)
+
+func _ready() -> void:
+	collision_shape = $"CollisionShape3D"
+
+func _process(delta):
+	pass
+
+func _physics_process(delta: float) -> void:
+	$HorizontalPivot.global_transform.basis = Basis.from_euler(Vector3(0, euler.y, 0))
+	$Camera.global_transform.basis = Basis.from_euler(euler)
+
+	facing = Vector3(-sin(euler.y), euler.x, -cos(euler.y))
+	facingh = Vector3(facing.x, 0, facing.z)
+	facingh2d = Vector2(facingh.x, facingh.z)
+
+	velocityh = Vector3(velocity.x, 0, velocity.z)
+	velocityh2d = Vector2(velocity.x, velocity.z)
+
+	speed = velocity.length()
+
+	input_direction = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	acceleration_direction = $HorizontalPivot.basis * Vector3(input_direction.x, 0, input_direction.y)
+
+	move_and_slide()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_mouse_capture"):
@@ -60,20 +86,10 @@ func apply_gravity(delta: float):
 func apply_acceleration(delta: float):
 	velocity += acceleration_direction * acceleration * delta
 
-func _physics_process(delta: float) -> void:
-	$HorizontalPivot.global_transform.basis = Basis.from_euler(Vector3(0, euler.y, 0))
-	$Camera.global_transform.basis = Basis.from_euler(euler)
+func to_crouched_collision():
+	collision_shape.shape.height = 1
+	collision_shape.transform.origin = Vector3(0, 0.5, 0)
 
-	facing = Vector3(-sin(euler.y), euler.x, -cos(euler.y))
-	facingh = Vector3(facing.x, 0, facing.z)
-	facingh2d = Vector2(facingh.x, facingh.z)
-
-	velocityh = Vector3(velocity.x, 0, velocity.z)
-	velocityh2d = Vector2(velocity.x, velocity.z)
-
-	speed = velocity.length()
-
-	input_direction = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	acceleration_direction = $HorizontalPivot.basis * Vector3(input_direction.x, 0, input_direction.y)
-
-	move_and_slide()
+func to_normal_collision():
+	collision_shape.shape.height = 2
+	collision_shape.transform.origin = Vector3(0, 0, 0)

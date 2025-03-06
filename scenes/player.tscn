@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://dan776xrw37gl" path="res://scripts/player/player.gd" id="1_gu4fs"]
 [ext_resource type="Script" uid="uid://cmsj1777um3u4" path="res://scripts/player/states/state_manager.gd" id="3_ur7pv"]
 [ext_resource type="Script" uid="uid://bvdygh8lbseis" path="res://scripts/player/states/grounded.gd" id="4_y4r1p"]
-[ext_resource type="Script" uid="uid://cn6hgaxc5iua8" path="res://scripts/player/states/crouching.gd" id="5_d2wvv"]
+[ext_resource type="Script" uid="uid://cn6hgaxc5iua8" path="res://scripts/player/states/crouching/crouching.gd" id="5_d2wvv"]
 [ext_resource type="Script" uid="uid://dwe2unt01gnf0" path="res://scripts/player/states/sliding.gd" id="6_3v2ag"]
 [ext_resource type="Script" uid="uid://brcxfeyfgc72s" path="res://scripts/player/states/airborne.gd" id="7_jej6c"]
-[ext_resource type="Script" uid="uid://dyx6jwhwvc2wq" path="res://scripts/player/states/airborne_crouching.gd" id="8_f1ej7"]
+[ext_resource type="Script" uid="uid://dyx6jwhwvc2wq" path="res://scripts/player/states/crouching/airborne_crouching.gd" id="8_f1ej7"]
 [ext_resource type="Script" uid="uid://d0dahtbglxvgk" path="res://scripts/player/states/gliding.gd" id="9_oprun"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kvs1v"]

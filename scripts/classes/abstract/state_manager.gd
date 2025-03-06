@@ -18,10 +18,10 @@ func _physics_process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	state.handle_input(event)
 
-func _to_next_state(next_state_path: NodePath, data: Dictionary) -> void:
-	assert(has_node(next_state_path), "Node: %s does not exist" % next_state_path)
+func _to_next_state(next_state_name: StringName, data: Dictionary) -> void:
+	assert(has_node(NodePath(next_state_name)), "Node: %s does not exist" % next_state_name)
 
-	var previous_state_path := state.get_path()
-	state.exit()
-	state = get_node(next_state_path)
+	var previous_state_path := state.name
+	state.exit(next_state_name)
+	state = get_node(NodePath(next_state_name))
 	state.enter(previous_state_path, data)

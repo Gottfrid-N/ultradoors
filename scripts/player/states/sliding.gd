@@ -9,8 +9,8 @@ func update(delta: float) -> void:
 func physics_update(delta: float) -> void:
 	pass
 
-func enter(previous_state_path: NodePath, data: Dictionary) -> void:
+func enter(previous_state_name: StringName, data: Dictionary) -> void:
 	pass
 
-func exit() -> void:
+func exit(next_state_name: StringName) -> void:
 	pass
