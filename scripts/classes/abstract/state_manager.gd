@@ -1,6 +1,7 @@
 class_name StateManager extends Node
 
 @onready var state: State = get_child(0)
+enum StateProcessMode {PROCESS, PHYSICS, NONE}
 
 func _ready() -> void:
 	for state_node: State in get_children():

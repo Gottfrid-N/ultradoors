@@ -7,7 +7,7 @@ class_name Player extends CharacterBody3D
 @export var defualt_acceleration_modifier := 1.0
 @export var base_acceleration := defualt_base_acceleration:
 	set(value):
-		acceleration_modifier = value
+		base_acceleration = value
 		redefine_acceleration()
 @export var acceleration_modifier := defualt_acceleration_modifier:
 	set(value):
@@ -16,9 +16,11 @@ class_name Player extends CharacterBody3D
 # DO NOT SET VALUE
 @export var acceleration = base_acceleration * acceleration_modifier
 
-
 func redefine_acceleration():
 	acceleration = base_acceleration * acceleration_modifier
+
+@export var defualt_crouching_speed = 5
+@export var crouching_speed = defualt_crouching_speed
 
 @export var friction = 4.0
 @export var defualt_friction = 4.0
