@@ -19,7 +19,7 @@ class_name Player extends CharacterBody3D
 func redefine_acceleration():
 	acceleration = base_acceleration * acceleration_modifier
 
-@export var defualt_crouching_speed = 5
+@export var defualt_crouching_speed = 1
 @export var crouching_speed = defualt_crouching_speed
 
 @export var friction = 4.0
@@ -48,8 +48,6 @@ func redefine_acceleration():
 @export var facingh2d := Vector2(0, 0)
 @export var velocityh := Vector3(0, 0, 0)
 @export var velocityh2d := Vector2(0, 0)
-
-
 
 func _ready() -> void:
 	collision_shape = $"CollisionShape3D"

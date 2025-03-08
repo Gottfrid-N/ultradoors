@@ -5,7 +5,7 @@ func handle_input(event: InputEvent):
 		player.move_camera_from_mouse(event)
 	
 	if event.is_action_pressed("crouch"):
-		switch_state.emit(state_manager.states.AIRBORNE_CROUCHING, {})
+		switch_state.emit(state_manager.states.BEGIN_AIRBORNE_CROUCHING, {})
 
 func update(delta: float) -> void:
 	pass
@@ -13,8 +13,8 @@ func update(delta: float) -> void:
 func physics_update(delta: float) -> void:
 	if player.is_on_floor():
 		switch_state.emit(state_manager.states.GROUNDED, {})
-
-	player.apply_gravity(delta)
+	else:
+		player.apply_gravity(delta)
 	player.apply_acceleration(delta)
 
 func enter(previous_state_name: StringName, data: Dictionary) -> void:

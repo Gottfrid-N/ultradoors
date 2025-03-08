@@ -15,15 +15,20 @@ func physics_update(delta: float) -> void:
 		switch_state.emit(state_manager.states.STOP_AIRBORNE_CROUCHING, {})
 
 	var new_height = player.collision_shape.shape.height + player.crouching_speed * delta
-
 	if new_height < player.collision_shape_height:
+		player.position += Vector3(0, player.crouching_speed * delta, 0)
 		player.collision_shape.shape.height = new_height
-		player.position += Vector3(0, 0.5 * delta, 0)
+		player.collision_shape.position -= Vector3(0, player.crouching_speed * 0.5 * delta, 0)
 	else:
+		player.position += Vector3(0, player.collision_shape_height - player.collision_shape.shape.height +
+										player.collision_shape.position.y, 0)
 		player.collision_shape.shape.height = player.collision_shape_height
-		player.position += Vector3(0, player.collision_shape_height - player.collision_shape.shape.height, 0)
+		player.collision_shape.position = Vector3(0, 0, 0)
 
 		switch_state.emit(state_manager.states.GROUNDED, {})
+	
+	player.apply_friction(delta)
+	player.apply_acceleration(delta)
 
 func enter(previous_state_name: StringName, data: Dictionary) -> void:
 	pass
