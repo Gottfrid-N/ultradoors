@@ -13,7 +13,7 @@
 [ext_resource type="Script" uid="uid://d0dahtbglxvgk" path="res://scripts/player/states/airborne/gliding.gd" id="9_oprun"]
 [ext_resource type="Script" uid="uid://ct2nvqw5xnx05" path="res://scripts/player/states/airborne/crouching/stop_airborne_crouching.gd" id="11_3v2ag"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3v2ag"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_3v2ag"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_l78a8"]
 
@@ -21,7 +21,7 @@
 script = ExtResource("1_gu4fs")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("CapsuleShape3D_3v2ag")
+shape = SubResource("CylinderShape3D_3v2ag")
 
 [node name="HorizontalPivot" type="Node3D" parent="."]
 

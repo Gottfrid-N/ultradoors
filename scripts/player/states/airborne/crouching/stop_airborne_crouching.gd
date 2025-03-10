@@ -17,11 +17,10 @@ func physics_update(delta: float) -> void:
 	var new_height = player.collision_shape.shape.height + player.crouching_speed * delta
 	if new_height < player.collision_shape_height:
 		player.collision_shape.shape.height = new_height
-		player.collision_shape.transform.origin += Vector3(0, 0.5 * delta, 0)
+		player.collision_shape.position -= Vector3(0, player.crouching_speed * 0.5 * delta, 0)
 	else:
 		player.collision_shape.shape.height = player.collision_shape_height
-		player.collision_shape.transform.origin = Vector3(0, 0.5, 0)
-		
+		player.collision_shape.position = Vector3(0, 0, 0)
 		switch_state.emit(state_manager.states.AIRBORNE, {})
 	player.apply_gravity(delta)
 	player.apply_acceleration(delta)

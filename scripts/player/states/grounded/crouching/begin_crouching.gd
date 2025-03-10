@@ -20,19 +20,10 @@ func physics_update(delta: float) -> void:
 		player.collision_shape.shape.height = new_height
 		player.collision_shape.position += Vector3(0, player.crouching_speed * 0.5 * delta, 0)
 	else:
-		print(new_height)
-		print(player.collision_shape.shape.height)
-		print(player.collision_shape.position)
-		print(player.crouching_speed * 0.5 * delta)
-		player.position -= Vector3(0, player.collision_shape.shape.height - player.crouched_collision_shape_height + 
-										0.5 - player.collision_shape.position.y, 0)
-		print(player.collision_shape.shape.height - player.crouched_collision_shape_height + 
-										0.5 - player.collision_shape.position.y)
+		player.position -= Vector3(0, player.collision_shape.shape.height - player.crouched_collision_shape_height, 0)
 		player.collision_shape.shape.height = player.crouched_collision_shape_height
-		player.collision_shape.position = Vector3(0, 0.5, 0)
-
+		player.collision_shape.position = Vector3(0, 1 - (player.crouched_collision_shape_height / player.collision_shape_height), 0)
 		switch_state.emit(state_manager.states.CROUCHING, {})
-	player.position -= Vector3(0, 0.05, 0)
 
 	player.apply_friction(delta)
 	player.apply_acceleration(delta)

@@ -8,9 +8,9 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if $Player.velocity is Vector3:
-		$DebugLabel.text = "pos: %v\nvelocity: %v speed: %s\naccel_dir: %v in: %v\nfacing: %v h: %v\neurot: %v h: %v\nstate: %s\norigin: %v height: %s" % [
+		$DebugLabel.text = "pos: %v\nvelocity: %v speed: %s h: %s\naccel_dir: %v in: %v\nfacing: %v h: %v\neurot: %v h: %v\nstate: %s\norigin: %v height: %s" % [
 		$Player.position,
-		$Player.velocity, $Player.speed, 
+		$Player.velocity, $Player.speed, $Player.velocityh.length(),
 		$Player.acceleration_direction, $Player.input_direction, 
 		$Player.facing, $Player.facingh, 
 		$Player/Camera.rotation, $Player/HorizontalPivot.rotation, 

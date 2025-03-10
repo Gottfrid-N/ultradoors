@@ -13,8 +13,8 @@ func update(delta: float) -> void:
 func physics_update(delta: float) -> void:
 	if not player.is_on_floor():
 		switch_state.emit(state_manager.states.AIRBORNE_CROUCHING, {})
-	else:
-		player.apply_friction(delta)
+
+	player.apply_friction(delta)
 	player.apply_acceleration(delta)
 
 func enter(previous_state_name: StringName, data: Dictionary) -> void:

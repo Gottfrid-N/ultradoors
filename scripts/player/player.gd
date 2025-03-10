@@ -3,8 +3,9 @@ class_name Player extends CharacterBody3D
 @export var speed := 0.0
 
 
-@export var defualt_base_acceleration := 50.0
+@export var defualt_base_acceleration := 42
 @export var defualt_acceleration_modifier := 1.0
+@export var air_acceleration_modifier := 0.5
 @export var base_acceleration := defualt_base_acceleration:
 	set(value):
 		base_acceleration = value
@@ -15,19 +16,16 @@ class_name Player extends CharacterBody3D
 		redefine_acceleration()
 # DO NOT SET VALUE
 @export var acceleration = base_acceleration * acceleration_modifier
+@export var max_acceleration_velocity = 10
 
 func redefine_acceleration():
 	acceleration = base_acceleration * acceleration_modifier
 
-@export var defualt_crouching_speed = 1
+@export var defualt_crouching_speed = 7
 @export var crouching_speed = defualt_crouching_speed
 
-@export var friction = 4.0
 @export var defualt_friction = 4.0
-
-@export var defualt_acceleration_in_air = 50.0
-
-@export var defualt_friction_in_air = 0.0
+@export var friction = defualt_friction
 
 @export var acceleration_direction := Vector3(0, 0, 0)
 @export var input_direction := Vector2(0, 0)
@@ -37,7 +35,7 @@ func redefine_acceleration():
 
 @onready var collision_shape: CollisionShape3D
 @export var collision_shape_height := 2.0
-@export var crouched_collision_shape_height := 1.0
+@export var crouched_collision_shape_height := 1
 
 @onready var space := get_world_3d().direct_space_state
 
@@ -60,6 +58,7 @@ func _physics_process(delta: float) -> void:
 	$Camera.global_transform.basis = Basis.from_euler(euler)
 
 	facing = Vector3(-sin(euler.y), euler.x, -cos(euler.y))
+	var facinge = Vector3(euler)
 	facingh = Vector3(facing.x, 0, facing.z)
 	facingh2d = Vector2(facingh.x, facingh.z)
 
@@ -103,12 +102,10 @@ func apply_gravity(delta: float):
 	velocity.y += get_gravity().y * delta 
 
 func apply_acceleration(delta: float):
-	velocity += acceleration_direction * acceleration * delta
+	var acceleration_velocity = acceleration * delta
+	var projection = velocity.dot(acceleration_direction)
 
-func transition_to_crouched_collision(delta: float):
-	collision_shape.shape.height = lerp(collision_shape.shape.height, 1, 5.0 * delta)
-	collision_shape.transform.origin = lerp(collision_shape.transform.origin, Vector3(0, 0.5, 0), 5.0 * delta)
+	if projection + acceleration_velocity > max_acceleration_velocity:
+		acceleration_velocity = max_acceleration_velocity - projection
 
-func transition_to_normal_collision(delta: float):
-	collision_shape.shape.height = lerp(collision_shape.shape.height, 2, 5.0 * delta)
-	collision_shape.transform.origin = lerp(collision_shape.transform.origin, Vector3(0, 0, 0), 5.0 * delta)
+	velocity += acceleration_velocity * acceleration_direction
